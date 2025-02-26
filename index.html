@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <link rel="stylesheet" href="./src/styles/styles.css" />
+  </head>
+  <body>
+    <header>
+      <app-bar></app-bar>
+    </header>
+    <main>
+      <div class="container">
+        <section-title title="Dicoding Notes">
+          <div id="formContainer" class="form-container">
+            <form id="form-notes">
+              <div class="form-group">
+                <label for="notes-title">Notes Title</label>
+                <input
+                  type="text"
+                  id="notes-title"
+                  name="notes-title"
+                  placeholder="Notes Title"
+                  autocomplete="off"
+                  required
+                  minlength="6"
+                  aria-describedby="notesTitleValidation"
+                />
+                <p
+                  id="notesTitleValidation"
+                  class="validation-message"
+                  aria-live="polite"
+                ></p>
+              </div>
+
+              <div class="form-group">
+                <label for="notes-body">Notes Content</label>
+                <textarea
+                  name="notes-body"
+                  id="notes-body"
+                  rows="10"
+                  required
+                  minlength="25"
+                  aria-describedby="notesContentValidation"
+                ></textarea>
+                <p
+                  id="notesContentValidation"
+                  class="validation-message"
+                  aria-live="polite"
+                ></p>
+              </div>
+
+              <div class="form-group">
+                <button class="btn-submit">Simpan</button>
+              </div>
+            </form>
+          </div>
+
+          <div id="notesContainer" class="notes-list-container">
+            <note-list></note-list>
+          </div>
+        </section-title>
+      </div>
+    </main>
+    <footer>
+      <footer-bar></footer-bar>
+    </footer>
+    <script src="./src/app.js" type="module"></script>
+  </body>
+</html>
