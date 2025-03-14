@@ -4,14 +4,12 @@ class NotesApi {
   static async getNotes() {
     const response = await fetch(`${BASE_URL}/notes`);
     if (!(response.status >= 200 && response.status <= 300)) {
-      throw new Error("Oops! Something went wrong!");
+      throw new Error("Something went wrong!");
     }
 
     const responseJson = await response.json();
     const { data: notes } = responseJson;
-    if (notes.length <= 0) {
-      throw new Error("Oops! Your notes are empty!");
-    }
+
     return notes;
   }
 
@@ -24,7 +22,7 @@ class NotesApi {
 
     const response = await fetch(`${BASE_URL}/notes`, options);
     if (!(response.status >= 200 && response.status <= 300)) {
-      throw new Error("Oops! Something went wrong!");
+      throw new Error("Something went wrong!");
     }
 
     const responseJson = await response.json();
@@ -36,7 +34,7 @@ class NotesApi {
       method: "DELETE",
     });
     if (!(response.status >= 200 && response.status <= 300)) {
-      throw new Error("Oops! Something went wrong!");
+      throw new Error("Something went wrong!");
     }
 
     const responseJson = await response.json();
