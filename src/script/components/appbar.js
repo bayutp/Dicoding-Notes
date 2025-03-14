@@ -5,8 +5,8 @@ class AppbarComponent extends HTMLElement {
   constructor() {
     super();
 
-    this._shadowRoot = this.attachShadow({ mode: "open" });
-    this._style = document.createElement("style");
+    this._shadowRoot = this.attachShadow({ mode: 'open' });
+    this._style = document.createElement('style');
   }
 
   _updateStyle() {
@@ -31,7 +31,7 @@ class AppbarComponent extends HTMLElement {
   }
 
   _emptyContent() {
-    this._shadowRoot.innerHTML = "";
+    this._shadowRoot.innerHTML = '';
   }
 
   connectedCallback() {
@@ -51,4 +51,4 @@ class AppbarComponent extends HTMLElement {
   }
 }
 
-customElements.define("app-bar", AppbarComponent);
+customElements.define('app-bar', AppbarComponent);

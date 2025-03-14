@@ -1,10 +1,10 @@
-const BASE_URL = "https://notes-api.dicoding.dev/v2";
+const BASE_URL = 'https://notes-api.dicoding.dev/v2';
 
 class NotesApi {
   static async getNotes() {
     const response = await fetch(`${BASE_URL}/notes`);
     if (!(response.status >= 200 && response.status <= 300)) {
-      throw new Error("Something went wrong!");
+      throw new Error('Something went wrong!');
     }
 
     const responseJson = await response.json();
@@ -15,14 +15,14 @@ class NotesApi {
 
   static async addNotes(note) {
     const options = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(note),
     };
 
     const response = await fetch(`${BASE_URL}/notes`, options);
     if (!(response.status >= 200 && response.status <= 300)) {
-      throw new Error("Something went wrong!");
+      throw new Error('Something went wrong!');
     }
 
     const responseJson = await response.json();
@@ -31,10 +31,10 @@ class NotesApi {
 
   static async deleteNotes(noteId) {
     const response = await fetch(`${BASE_URL}/notes/${noteId}`, {
-      method: "DELETE",
+      method: 'DELETE',
     });
     if (!(response.status >= 200 && response.status <= 300)) {
-      throw new Error("Something went wrong!");
+      throw new Error('Something went wrong!');
     }
 
     const responseJson = await response.json();
@@ -43,10 +43,10 @@ class NotesApi {
 
   static async setArchive(noteId) {
     const response = await fetch(`${BASE_URL}/notes/${noteId}/archive`, {
-      method: "POST",
+      method: 'POST',
     });
     if (!(response.status >= 200 && response.status <= 300)) {
-      throw new Error("Something went wrong!");
+      throw new Error('Something went wrong!');
     }
 
     const responseJson = await response.json();
@@ -55,10 +55,10 @@ class NotesApi {
 
   static async setUnarchive(noteId) {
     const response = await fetch(`${BASE_URL}/notes/${noteId}/unarchive`, {
-      method: "POST",
+      method: 'POST',
     });
     if (!(response.status >= 200 && response.status <= 300)) {
-      throw new Error("Something went wrong!");
+      throw new Error('Something went wrong!');
     }
 
     const responseJson = await response.json();
@@ -68,7 +68,7 @@ class NotesApi {
   static async getNotesArchive() {
     const response = await fetch(`${BASE_URL}/notes/archived`);
     if (!(response.status >= 200 && response.status <= 300)) {
-      throw new Error("Something went wrong!");
+      throw new Error('Something went wrong!');
     }
 
     const responseJson = await response.json();

@@ -13,8 +13,8 @@ class NoteItemsComponent extends HTMLElement {
   constructor() {
     super();
 
-    this._shadowRoot = this.attachShadow({ mode: "open" });
-    this._style = document.createElement("style");
+    this._shadowRoot = this.attachShadow({ mode: 'open' });
+    this._style = document.createElement('style');
   }
 
   _updateStyle() {
@@ -78,7 +78,7 @@ class NoteItemsComponent extends HTMLElement {
   }
 
   _emptyContent() {
-    this._shadowRoot.innerHTML = "";
+    this._shadowRoot.innerHTML = '';
   }
 
   set note(value) {
@@ -91,7 +91,7 @@ class NoteItemsComponent extends HTMLElement {
   }
 
   render() {
-    const title = this._note.archived ? "Restore" : "Archived";
+    const title = this._note.archived ? 'Restore' : 'Archived';
     this._emptyContent();
     this._updateStyle();
 
@@ -113,28 +113,28 @@ class NoteItemsComponent extends HTMLElement {
         </div>
         `;
     this._shadowRoot
-      .querySelector(".btn-archive")
-      .addEventListener("click", () => {
+      .querySelector('.btn-archive')
+      .addEventListener('click', () => {
         this.dispatchEvent(
-          new CustomEvent("archive-note", {
+          new CustomEvent('archive-note', {
             detail: { id: this._note.id, archived: this._note.archived },
             bubbles: true,
             composed: true,
-          }),
+          })
         );
       });
     this._shadowRoot
-      .querySelector(".notes-info__btn")
-      .addEventListener("click", () => {
+      .querySelector('.notes-info__btn')
+      .addEventListener('click', () => {
         this.dispatchEvent(
-          new CustomEvent("delete-note", {
+          new CustomEvent('delete-note', {
             detail: { id: this._note.id },
             bubbles: true,
             composed: true,
-          }),
+          })
         );
       });
   }
 }
 
-customElements.define("note-items", NoteItemsComponent);
+customElements.define('note-items', NoteItemsComponent);

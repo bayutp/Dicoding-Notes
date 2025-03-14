@@ -5,8 +5,8 @@ class IndikatorLoading extends HTMLElement {
   constructor() {
     super();
 
-    this._shadowRoot = this.attachShadow({ mode: "open" });
-    this._style = document.createElement("style");
+    this._shadowRoot = this.attachShadow({ mode: 'open' });
+    this._style = document.createElement('style');
   }
 
   _updateStyle() {
@@ -22,7 +22,7 @@ class IndikatorLoading extends HTMLElement {
   }
 
   _emptyContent() {
-    this._shadowRoot.innerHTML = "";
+    this._shadowRoot.innerHTML = '';
   }
 
   connectedCallback() {
@@ -40,4 +40,4 @@ class IndikatorLoading extends HTMLElement {
   }
 }
 
-customElements.define("indikator-loading", IndikatorLoading);
+customElements.define('indikator-loading', IndikatorLoading);

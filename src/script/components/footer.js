@@ -5,8 +5,8 @@ class FooterComponent extends HTMLElement {
   constructor() {
     super();
 
-    this._shadowRoot = this.attachShadow({ mode: "open" });
-    this._style = document.createElement("style");
+    this._shadowRoot = this.attachShadow({ mode: 'open' });
+    this._style = document.createElement('style');
   }
 
   _updateStyle() {
@@ -23,7 +23,7 @@ class FooterComponent extends HTMLElement {
   }
 
   _emptyContent() {
-    this._shadowRoot.innerHTML = "";
+    this._shadowRoot.innerHTML = '';
   }
 
   connectedCallback() {
@@ -44,4 +44,4 @@ class FooterComponent extends HTMLElement {
   }
 }
 
-customElements.define("footer-bar", FooterComponent);
+customElements.define('footer-bar', FooterComponent);

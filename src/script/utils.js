@@ -1,15 +1,15 @@
 class Utils {
   static emptyElement(element) {
-    element.innerHTML = "";
+    element.innerHTML = '';
   }
 
   static showElement(element) {
-    element.style.display = "block";
+    element.style.display = 'block';
     element.hidden = false;
   }
 
   static hideElement(element) {
-    element.style.display = "none";
+    element.style.display = 'none';
     element.hidden = true;
   }
 
@@ -18,10 +18,10 @@ class Utils {
   }
 
   static validationHandler = (event, length) => {
-    event.target.setCustomValidity("");
+    event.target.setCustomValidity('');
 
     if (event.target.validity.valueMissing) {
-      event.target.setCustomValidity("Wajib diisi");
+      event.target.setCustomValidity('Wajib diisi');
     }
 
     if (event.target.validity.tooShort) {
@@ -32,20 +32,20 @@ class Utils {
   };
 
   static resetValidation = (event) => {
-    event.target.setCustomValidity("");
+    event.target.setCustomValidity('');
     Utils.displayValidationMessage(event);
   };
 
   static displayValidationMessage = (event) => {
     const isValid = event.target.validity.valid;
     const errorMessage = event.target.validationMessage;
-    const connectedValidationId = event.target.getAttribute("aria-describedby");
+    const connectedValidationId = event.target.getAttribute('aria-describedby');
     const connectedValidationEl = connectedValidationId
       ? document.getElementById(connectedValidationId)
       : null;
 
     if (connectedValidationEl) {
-      connectedValidationEl.innerText = !isValid ? errorMessage : "";
+      connectedValidationEl.innerText = !isValid ? errorMessage : '';
     }
   };
 }

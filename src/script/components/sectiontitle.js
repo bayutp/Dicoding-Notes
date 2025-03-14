@@ -2,19 +2,19 @@ class SectionTitleComponent extends HTMLElement {
   _shadowRoot = null;
   _style = null;
 
-  _title = "Default Title";
+  _title = 'Default Title';
 
   constructor() {
     super();
 
-    this._shadowRoot = this.attachShadow({ mode: "open" });
-    this._style = document.createElement("style");
+    this._shadowRoot = this.attachShadow({ mode: 'open' });
+    this._style = document.createElement('style');
 
     this.render();
   }
 
   static get observedAttributes() {
-    return ["title"];
+    return ['title'];
   }
 
   _updateStyle() {
@@ -31,7 +31,7 @@ class SectionTitleComponent extends HTMLElement {
   }
 
   _emptyContent() {
-    this._shadowRoot.innerHTML = "";
+    this._shadowRoot.innerHTML = '';
   }
 
   set title(value) {
@@ -44,7 +44,7 @@ class SectionTitleComponent extends HTMLElement {
 
   attributeChangedCallback(name, oldValue, newValue) {
     switch (name) {
-      case "title":
+      case 'title':
         this._title = newValue;
         break;
     }
@@ -70,4 +70,4 @@ class SectionTitleComponent extends HTMLElement {
   }
 }
 
-customElements.define("section-title", SectionTitleComponent);
+customElements.define('section-title', SectionTitleComponent);

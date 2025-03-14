@@ -1,4 +1,4 @@
-import Utils from "../utils.js";
+import Utils from '../utils.js';
 
 class NotesListComponent extends HTMLElement {
   _shadowRoot = null;
@@ -10,14 +10,14 @@ class NotesListComponent extends HTMLElement {
   constructor() {
     super();
 
-    this._shadowRoot = this.attachShadow({ mode: "open" });
-    this._style = document.createElement("style");
+    this._shadowRoot = this.attachShadow({ mode: 'open' });
+    this._style = document.createElement('style');
 
     this.render();
   }
 
   static get observedAttributes() {
-    return ["column", "gutter"];
+    return ['column', 'gutter'];
   }
 
   set column(value) {
@@ -46,7 +46,7 @@ class NotesListComponent extends HTMLElement {
   }
 
   _emptyContent() {
-    this._shadowRoot.innerHTML = "";
+    this._shadowRoot.innerHTML = '';
   }
 
   _updateStyle() {
@@ -76,11 +76,11 @@ class NotesListComponent extends HTMLElement {
 
   attributeChangedCallback(name, oldValue, newValue) {
     switch (name) {
-      case "column":
+      case 'column':
         this._column = newValue;
         break;
 
-      case "gutter":
+      case 'gutter':
         this._gutter = newValue;
         break;
     }
@@ -89,4 +89,4 @@ class NotesListComponent extends HTMLElement {
   }
 }
 
-customElements.define("note-list", NotesListComponent);
+customElements.define('note-list', NotesListComponent);
