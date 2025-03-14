@@ -1,25 +1,24 @@
 class NoteItemsComponent extends HTMLElement {
+  _shadowRoot = null;
+  _style = null;
 
-    _shadowRoot = null
-    _style = null
+  _note = {
+    id: null,
+    title: null,
+    body: null,
+    createdAt: null,
+    archived: false,
+  };
 
-    _note = {
-        id: null,
-        title: null,
-        body: null,
-        createdAt: null,
-        archived: false,
-    }
+  constructor() {
+    super();
 
-    constructor() {
-        super()
+    this._shadowRoot = this.attachShadow({ mode: "open" });
+    this._style = document.createElement("style");
+  }
 
-        this._shadowRoot = this.attachShadow({ mode: 'open' })
-        this._style = document.createElement('style')
-    }
-
-    _updateStyle() {
-        this._style.textContent = `
+  _updateStyle() {
+    this._style.textContent = `
         :host {
             display: block;
             border-radius: 8px;
@@ -46,28 +45,53 @@ class NoteItemsComponent extends HTMLElement {
             -webkit-box-orient: vertical;
             -webkit-line-clamp: 5;
         }
-        `
-    }
 
-    _emptyContent() {
-        this._shadowRoot.innerHTML = ''
-    }
+        .notes-info__btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
-    set note(value) {
-        this._note = value
-        this.render()
-    }
+            width: 100%; 
+            padding: 10px;
 
-    get note() {
-        return this._note
-    }
+            background-color: #d9534f; 
+            color: white;
+            border: none;
+            border-radius: 8px;
 
-    render() {
-        this._emptyContent()
-        this._updateStyle()
+            font-size: 16px;
+            font-weight: bold;
 
-        this._shadowRoot.appendChild(this._style)
-        this._shadowRoot.innerHTML += `
+            cursor: pointer;
+            transition: background 0.2s ease-in-out;
+        }
+
+        .notes-info__btn:hover {
+            background-color: #c9302c; 
+        }
+
+        `;
+  }
+
+  _emptyContent() {
+    this._shadowRoot.innerHTML = "";
+  }
+
+  set note(value) {
+    this._note = value;
+    this.render();
+  }
+
+  get note() {
+    return this._note;
+  }
+
+  render() {
+    this._emptyContent();
+    this._updateStyle();
+
+    this._shadowRoot.appendChild(this._style);
+    this._shadowRoot.innerHTML += `
         <div class="card">
           <div class="notes-info">
             <div class="notes-info__title">
@@ -76,10 +100,22 @@ class NoteItemsComponent extends HTMLElement {
             <div class="notes-info__description">
               <p>${this._note.body}</p>
             </div>
+            <button class="notes-info__btn">Delete</button>
           </div>
         </div>
-        `
-    }
+        `;
+    this._shadowRoot
+      .querySelector(".notes-info__btn")
+      .addEventListener("click", () => {
+        this.dispatchEvent(
+          new CustomEvent("delete-note", {
+            detail: { id: this._note.id },
+            bubbles: true,
+            composed: true,
+          }),
+        );
+      });
+  }
 }
 
-customElements.define('note-items', NoteItemsComponent)
+customElements.define("note-items", NoteItemsComponent);

@@ -1,25 +1,24 @@
 class SectionTitleComponent extends HTMLElement {
+  _shadowRoot = null;
+  _style = null;
 
-    _shadowRoot = null
-    _style = null
+  _title = "Default Title";
 
-    _title = "Default Title"
+  constructor() {
+    super();
 
-    constructor() {
-        super()
+    this._shadowRoot = this.attachShadow({ mode: "open" });
+    this._style = document.createElement("style");
 
-        this._shadowRoot = this.attachShadow({ mode: 'open' })
-        this._style = document.createElement('style')
+    this.render();
+  }
 
-        this.render()
-    }
+  static get observedAttributes() {
+    return ["title"];
+  }
 
-    static get observedAttributes() {
-        return ['title']
-    }
-
-    _updateStyle() {
-        this._style.textContent = `
+  _updateStyle() {
+    this._style.textContent = `
         :host {
             display: block;
         }
@@ -28,37 +27,36 @@ class SectionTitleComponent extends HTMLElement {
             margin-block-end: 2rem;
             font-size: 1.2em;
         }
-        `
+        `;
+  }
+
+  _emptyContent() {
+    this._shadowRoot.innerHTML = "";
+  }
+
+  set title(value) {
+    this._title = value;
+  }
+
+  get title() {
+    return this._title;
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    switch (name) {
+      case "title":
+        this._title = newValue;
+        break;
     }
+    this.render();
+  }
 
-    _emptyContent() {
-        this._shadowRoot.innerHTML = ''
-    }
+  render() {
+    this._emptyContent();
+    this._updateStyle();
 
-    set title(value) {
-        this._title = value
-    }
-
-    get title() {
-        return this._title
-    }
-
-    attributeChangedCallback(name, oldValue, newValue) {
-        switch (name) {
-            case 'title':
-                this._title = newValue
-                break;
-        }
-        this.render()
-
-    }
-
-    render(){
-        this._emptyContent()
-        this._updateStyle()
-
-        this._shadowRoot.appendChild(this._style)
-        this._shadowRoot.innerHTML += `
+    this._shadowRoot.appendChild(this._style);
+    this._shadowRoot.innerHTML += `
         <section id="notes" class="notes">
             <div class="title-section">
             <h2>${this.title}</h2>
@@ -68,8 +66,8 @@ class SectionTitleComponent extends HTMLElement {
             <slot></slot>
             </div>
         </section>
-        `
-    }
+        `;
+  }
 }
 
-customElements.define('section-title', SectionTitleComponent)
+customElements.define("section-title", SectionTitleComponent);

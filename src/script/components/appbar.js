@@ -1,17 +1,16 @@
 class AppbarComponent extends HTMLElement {
+  _shadowRoot = null;
+  _style = null;
 
-    _shadowRoot = null
-    _style = null
+  constructor() {
+    super();
 
-    constructor() {
-        super()
+    this._shadowRoot = this.attachShadow({ mode: "open" });
+    this._style = document.createElement("style");
+  }
 
-        this._shadowRoot = this.attachShadow({ mode: 'open' })
-        this._style = document.createElement('style')
-    }
-
-    _updateStyle() {
-        this._style.textContent = `
+  _updateStyle() {
+    this._style.textContent = `
         :host {
             display: block;
             width:100%;
@@ -28,28 +27,28 @@ class AppbarComponent extends HTMLElement {
             margin: 0;
             font-size: 1.7em;
         }
-        `
-    }
+        `;
+  }
 
-    _emptyContent(){
-        this._shadowRoot.innerHTML = ''
-    }
+  _emptyContent() {
+    this._shadowRoot.innerHTML = "";
+  }
 
-    connectedCallback(){
-        this.render()
-    }
+  connectedCallback() {
+    this.render();
+  }
 
-    render(){
-        this._emptyContent()
-        this._updateStyle()
+  render() {
+    this._emptyContent();
+    this._updateStyle();
 
-        this._shadowRoot.appendChild(this._style)
-        this._shadowRoot.innerHTML += `
+    this._shadowRoot.appendChild(this._style);
+    this._shadowRoot.innerHTML += `
             <div class='app-bar'>
                 <h1>Dicoding Notes Apps</h1>
             </div>
-        `
-    }
+        `;
+  }
 }
 
-customElements.define('app-bar', AppbarComponent)
+customElements.define("app-bar", AppbarComponent);
