@@ -19,57 +19,61 @@ class NoteItemsComponent extends HTMLElement {
 
   _updateStyle() {
     this._style.textContent = `
-        :host {
-            display: block;
-            border-radius: 8px;
+      :host {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+        border-radius: 8px;
+        box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+        overflow: hidden;
+      }
 
-            box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.5);
-            overflow: hidden;
-        }
+      .notes-info {
+        flex-grow: 1;
+        padding: 16px 24px;
+        display: flex;
+        flex-direction: column;
+      }
 
-        .notes-info {
-            padding: 16px 24px;
-        }
+      .notes-info__description {
+        flex-grow: 1; 
+      }
 
-        .notes-info__title h2 {
-            font-weight: lighter;
-        }
+      .notes-footer {
+        padding: 10px 0px;
+        display: flex;
+        gap: 0.5rem;
+        justify-content: flex-end;
+      }
 
-        .notes-info__description p {
-            display: -webkit-box;
-            margin-top: 10px;
+      .notes-info__btn {
+        width: 100%;
+        padding: 12px;
+        background-color: #d9534f;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.2s ease-in-out;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
 
-            overflow: hidden;
-
-            text-overflow: ellipsis;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 5;
-        }
-
-        .notes-info__btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            width: 100%; 
-            padding: 10px;
-
-            background-color: #d9534f; 
-            color: white;
-            border: none;
-            border-radius: 8px;
-
-            font-size: 16px;
-            font-weight: bold;
-
-            cursor: pointer;
-            transition: background 0.2s ease-in-out;
-        }
-
-        .notes-info__btn:hover {
-            background-color: #c9302c; 
-        }
-
+      .notes-info__btn:hover {
+        background-color: #c9302c;
+      }
+      
+      .btn-archive {
+        background-color: #f0ad4e;
+      }
+      
+      .btn-archive:hover {
+        background-color: #ec971f;
+      }
         `;
   }
 
@@ -87,6 +91,7 @@ class NoteItemsComponent extends HTMLElement {
   }
 
   render() {
+    const title = this._note.archived ? "Restore" : "Archived";
     this._emptyContent();
     this._updateStyle();
 
@@ -100,10 +105,24 @@ class NoteItemsComponent extends HTMLElement {
             <div class="notes-info__description">
               <p>${this._note.body}</p>
             </div>
-            <button class="notes-info__btn">Delete</button>
+            <div class="notes-footer">
+              <button class="notes-info__btn">Delete</button>
+              <button class="notes-info__btn btn-archive">${title}</button>
+            </div>
           </div>
         </div>
         `;
+    this._shadowRoot
+      .querySelector(".btn-archive")
+      .addEventListener("click", () => {
+        this.dispatchEvent(
+          new CustomEvent("archive-note", {
+            detail: { id: this._note.id, archived: this._note.archived },
+            bubbles: true,
+            composed: true,
+          }),
+        );
+      });
     this._shadowRoot
       .querySelector(".notes-info__btn")
       .addEventListener("click", () => {

@@ -56,9 +56,23 @@
             </form>
           </div>
 
-          <div id="notesContainer" class="notes-list-container">
-            <note-list></note-list>
-            <indikator-loading></indikator-loading>
+          <div class="tabs">
+            <button class="tab-btn active" data-tab="all">All Notes</button>
+            <button class="tab-btn" data-tab="archived">Archived Notes</button>
+          </div>
+
+          <div class="tab-content active" id="all-notes">
+            <div id="notesContainer" class="notes-list-container">
+              <note-list></note-list>
+              <indikator-loading></indikator-loading>
+            </div>
+          </div>
+
+          <div class="tab-content" id="archived-notes">
+            <div id="notesArchiveContainer" class="notes-list-container">
+              <note-list class="archived"></note-list>
+              <indikator-loading></indikator-loading>
+            </div>
           </div>
         </section-title>
       </div>

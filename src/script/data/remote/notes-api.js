@@ -40,6 +40,41 @@ class NotesApi {
     const responseJson = await response.json();
     return responseJson.message;
   }
+
+  static async setArchive(noteId) {
+    const response = await fetch(`${BASE_URL}/notes/${noteId}/archive`, {
+      method: "POST",
+    });
+    if (!(response.status >= 200 && response.status <= 300)) {
+      throw new Error("Something went wrong!");
+    }
+
+    const responseJson = await response.json();
+    return responseJson.message;
+  }
+
+  static async setUnarchive(noteId) {
+    const response = await fetch(`${BASE_URL}/notes/${noteId}/unarchive`, {
+      method: "POST",
+    });
+    if (!(response.status >= 200 && response.status <= 300)) {
+      throw new Error("Something went wrong!");
+    }
+
+    const responseJson = await response.json();
+    return responseJson.message;
+  }
+
+  static async getNotesArchive() {
+    const response = await fetch(`${BASE_URL}/notes/archived`);
+    if (!(response.status >= 200 && response.status <= 300)) {
+      throw new Error("Something went wrong!");
+    }
+
+    const responseJson = await response.json();
+    const { data: notes } = responseJson;
+    return notes;
+  }
 }
 
 export default NotesApi;

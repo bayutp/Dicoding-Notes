@@ -3,7 +3,10 @@ import NotesApi from "../data/remote/notes-api.js";
 import Swal from "sweetalert2";
 
 const noteListContainer = document.querySelector("#notesContainer");
+const archiveNotesContainer = document.querySelector("#notesArchiveContainer");
 const listElement = document.querySelector("note-list");
+const archiveElement = document.querySelector(".archived");
+
 const notesTitleElement = document.querySelector("#notes-title");
 const notesBodyElement = document.querySelector("#notes-body");
 const formNotesElement = document.querySelector("#form-notes");
@@ -11,29 +14,47 @@ const loadingElement = document.querySelector("indikator-loading");
 
 const home = () => {
   getNotes();
+  getArchives();
   saveNotes();
   deleteNotes();
+  archiveNotes();
+  tabsConfig();
 };
 
 const getNotes = () => {
   showLoading();
   NotesApi.getNotes()
     .then((result) => {
-      displayResult(result);
+      displayResult(result, false);
       showNoteList();
     })
     .catch((error) => showError(error));
 };
 
-const displayResult = (notes) => {
+const getArchives = () => {
+  showLoading();
+  NotesApi.getNotesArchive()
+    .then((result) => {
+      displayResult(result, true);
+      showArchiveList();
+    })
+    .catch((error) => showError(error));
+};
+
+const displayResult = (notes, archived) => {
   const notesItemElements = notes.map((note) => {
     const notesItemElement = document.createElement("note-items");
     notesItemElement.note = note;
     return notesItemElement;
   });
 
-  Utils.emptyElement(listElement);
-  listElement.append(...notesItemElements);
+  if (archived) {
+    Utils.emptyElement(archiveElement);
+    archiveElement.append(...notesItemElements);
+  } else {
+    Utils.emptyElement(listElement);
+    listElement.append(...notesItemElements);
+  }
 };
 
 const saveNotes = () => {
@@ -87,9 +108,76 @@ const deleteNotes = () => {
           .then((result) => {
             showMessage(result);
             getNotes();
+            getArchives();
           })
           .catch((error) => showError(error));
       }
+    });
+  });
+};
+
+const archiveNotes = () => {
+  document.addEventListener("archive-note", (event) => {
+    if (event.detail.archived) {
+      Swal.fire({
+        icon: "question",
+        title: "Are you sure",
+        text: "You want to restore this note",
+        showCancelButton: true,
+        footer: "<p>Dicoding &copy; 2025</p>",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          NotesApi.setUnarchive(event.detail.id)
+            .then((result) => {
+              showMessage(result);
+              getNotes();
+              getArchives();
+            })
+            .catch((error) => showError(error));
+        }
+      });
+    } else {
+      Swal.fire({
+        icon: "question",
+        title: "Are you sure",
+        text: "You want to archive this note",
+        showCancelButton: true,
+        footer: "<p>Dicoding &copy; 2025</p>",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          NotesApi.setArchive(event.detail.id)
+            .then((result) => {
+              showMessage(result);
+              getNotes();
+              getArchives();
+            })
+            .catch((error) => showError(error));
+        }
+      });
+    }
+  });
+};
+
+const tabsConfig = () => {
+  document.querySelectorAll(".tab-btn").forEach((button) => {
+    button.addEventListener("click", (event) => {
+      // Hapus class active dari semua tombol
+      document
+        .querySelectorAll(".tab-btn")
+        .forEach((btn) => btn.classList.remove("active"));
+      // Tambahkan class active ke tombol yang diklik
+      event.target.classList.add("active");
+
+      // Ambil tab yang dipilih
+      const selectedTab = event.target.dataset.tab;
+
+      // Sembunyikan semua tab-content
+      document
+        .querySelectorAll(".tab-content")
+        .forEach((tab) => tab.classList.remove("active"));
+
+      // Tampilkan tab-content yang sesuai
+      document.getElementById(`${selectedTab}-notes`).classList.add("active");
     });
   });
 };
@@ -122,6 +210,13 @@ const showNoteList = () => {
     Utils.hideElement(element);
   });
   Utils.showElement(listElement);
+};
+
+const showArchiveList = () => {
+  Array.from(archiveNotesContainer.children).forEach((element) => {
+    Utils.hideElement(element);
+  });
+  Utils.showElement(archiveElement);
 };
 
 export default home;
