@@ -128,7 +128,7 @@ class NoteItemsComponent extends HTMLElement {
       .addEventListener('click', () => {
         this.dispatchEvent(
           new CustomEvent('delete-note', {
-            detail: { id: this._note.id },
+            detail: { id: this._note.id, archived: this._note.archived },
             bubbles: true,
             composed: true,
           })

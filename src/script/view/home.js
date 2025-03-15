@@ -11,6 +11,7 @@ const notesTitleElement = document.querySelector('#notes-title');
 const notesBodyElement = document.querySelector('#notes-body');
 const formNotesElement = document.querySelector('#form-notes');
 const loadingElement = document.querySelector('indikator-loading');
+const loadingArchivedElement = document.querySelector('.archived-loading');
 
 const home = () => {
   getNotes();
@@ -22,21 +23,21 @@ const home = () => {
 };
 
 const getNotes = () => {
-  showLoading();
+  showLoading(false);
   NotesApi.getNotes()
     .then((result) => {
       displayResult(result, false);
-      showNoteList();
+      showNoteList(false);
     })
     .catch((error) => showError(error));
 };
 
 const getArchives = () => {
-  showLoading();
+  showLoading(true);
   NotesApi.getNotesArchive()
     .then((result) => {
       displayResult(result, true);
-      showArchiveList();
+      showNoteList(true);
     })
     .catch((error) => showError(error));
 };
@@ -76,6 +77,7 @@ const saveNotes = () => {
 
   // Event listener untuk submit form
   formNotesElement.addEventListener('submit', (event) => {
+    showLoading(false)
     event.preventDefault();
     const note = {
       title: notesTitleElement.value,
@@ -84,6 +86,7 @@ const saveNotes = () => {
 
     NotesApi.addNotes(note)
       .then((result) => {
+        showNoteList(false)
         showMessage(result);
         getNotes();
       })
@@ -104,8 +107,10 @@ const deleteNotes = () => {
       footer: '<p>Dicoding notes &copy; 2025</p>',
     }).then((result) => {
       if (result.isConfirmed) {
+        showLoading(event.detail.archived)
         NotesApi.deleteNotes(event.detail.id)
           .then((result) => {
+            showNoteList(event.detail.archived)
             showMessage(result);
             getNotes();
             getArchives();
@@ -127,8 +132,10 @@ const archiveNotes = () => {
         footer: '<p>Dicoding &copy; 2025</p>',
       }).then((result) => {
         if (result.isConfirmed) {
+          showLoading(true)
           NotesApi.setUnarchive(event.detail.id)
             .then((result) => {
+              showNoteList(true)
               showMessage(result);
               getNotes();
               getArchives();
@@ -145,8 +152,10 @@ const archiveNotes = () => {
         footer: '<p>Dicoding &copy; 2025</p>',
       }).then((result) => {
         if (result.isConfirmed) {
+          showLoading(false)
           NotesApi.setArchive(event.detail.id)
             .then((result) => {
+              showNoteList(false)
               showMessage(result);
               getNotes();
               getArchives();
@@ -198,25 +207,22 @@ const showError = (error) => {
   });
 };
 
-const showLoading = () => {
-  Array.from(noteListContainer.children).forEach((element) => {
+const showLoading = (archived) => {
+  const elementContainer = archived ? archiveNotesContainer : noteListContainer
+  const element = archived ? loadingArchivedElement : loadingElement
+  Array.from(elementContainer.children).forEach((element) => {
     Utils.hideElement(element);
   });
-  Utils.showElement(loadingElement);
+  Utils.showElement(element);
 };
 
-const showNoteList = () => {
-  Array.from(noteListContainer.children).forEach((element) => {
+const showNoteList = (archived) => {
+  const elementContainer = archived ? archiveNotesContainer : noteListContainer
+  const element = archived ? archiveElement : listElement
+  Array.from(elementContainer.children).forEach((element) => {
     Utils.hideElement(element);
   });
-  Utils.showElement(listElement);
-};
-
-const showArchiveList = () => {
-  Array.from(archiveNotesContainer.children).forEach((element) => {
-    Utils.hideElement(element);
-  });
-  Utils.showElement(archiveElement);
+  Utils.showElement(element);
 };
 
 export default home;
