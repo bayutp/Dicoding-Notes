@@ -77,7 +77,7 @@ const saveNotes = () => {
 
   // Event listener untuk submit form
   formNotesElement.addEventListener('submit', (event) => {
-    showLoading(false)
+    showLoading(false);
     event.preventDefault();
     const note = {
       title: notesTitleElement.value,
@@ -86,7 +86,7 @@ const saveNotes = () => {
 
     NotesApi.addNotes(note)
       .then((result) => {
-        showNoteList(false)
+        showNoteList(false);
         showMessage(result);
         getNotes();
       })
@@ -107,10 +107,10 @@ const deleteNotes = () => {
       footer: '<p>Dicoding notes &copy; 2025</p>',
     }).then((result) => {
       if (result.isConfirmed) {
-        showLoading(event.detail.archived)
+        showLoading(event.detail.archived);
         NotesApi.deleteNotes(event.detail.id)
           .then((result) => {
-            showNoteList(event.detail.archived)
+            showNoteList(event.detail.archived);
             showMessage(result);
             getNotes();
             getArchives();
@@ -132,10 +132,10 @@ const archiveNotes = () => {
         footer: '<p>Dicoding &copy; 2025</p>',
       }).then((result) => {
         if (result.isConfirmed) {
-          showLoading(true)
+          showLoading(true);
           NotesApi.setUnarchive(event.detail.id)
             .then((result) => {
-              showNoteList(true)
+              showNoteList(true);
               showMessage(result);
               getNotes();
               getArchives();
@@ -152,10 +152,10 @@ const archiveNotes = () => {
         footer: '<p>Dicoding &copy; 2025</p>',
       }).then((result) => {
         if (result.isConfirmed) {
-          showLoading(false)
+          showLoading(false);
           NotesApi.setArchive(event.detail.id)
             .then((result) => {
-              showNoteList(false)
+              showNoteList(false);
               showMessage(result);
               getNotes();
               getArchives();
@@ -208,8 +208,8 @@ const showError = (error) => {
 };
 
 const showLoading = (archived) => {
-  const elementContainer = archived ? archiveNotesContainer : noteListContainer
-  const element = archived ? loadingArchivedElement : loadingElement
+  const elementContainer = archived ? archiveNotesContainer : noteListContainer;
+  const element = archived ? loadingArchivedElement : loadingElement;
   Array.from(elementContainer.children).forEach((element) => {
     Utils.hideElement(element);
   });
@@ -217,8 +217,8 @@ const showLoading = (archived) => {
 };
 
 const showNoteList = (archived) => {
-  const elementContainer = archived ? archiveNotesContainer : noteListContainer
-  const element = archived ? archiveElement : listElement
+  const elementContainer = archived ? archiveNotesContainer : noteListContainer;
+  const element = archived ? archiveElement : listElement;
   Array.from(elementContainer.children).forEach((element) => {
     Utils.hideElement(element);
   });
